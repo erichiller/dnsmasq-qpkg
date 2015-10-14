@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Dnsmasq-qpkg : dnsmasq qpkg for qnap nas">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dnsmasq-qpkg</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/variab1e/dnsmasq-qpkg">View on GitHub</a>
+
+          <h1 id="project_title">Dnsmasq-qpkg</h1>
+          <h2 id="project_tagline">dnsmasq qpkg for qnap nas</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/variab1e/dnsmasq-qpkg/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/variab1e/dnsmasq-qpkg/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="dnsmasq-qpkg---lightweight-dns-and-dhcp-server-for-qnap-nas" class="anchor" href="#dnsmasq-qpkg---lightweight-dns-and-dhcp-server-for-qnap-nas" aria-hidden="true"><span class="octicon octicon-link"></span></a>dnsmasq qpkg - Lightweight DNS and DHCP Server for QNAP NAS</h1>
+
+<p>dnsmasq is a lightweight dns server and dhcp server perfect for home or small business use. Uses are plentiful but, some example use cases (and in my case) are creating aliases for hosts on my local network, having static ips, and bypassing ISP DNS servers (configured here to use Google's DNS servers for IPv4 and IPv6), and adding a bit of speed.</p>
+
+<p>dnsmasq is an excellent piece of software, and I need to give the original authors a shout out, <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">please check their site for loads of useful information and tips</a>. Also a better description than I could provide:</p>
+
+<blockquote>
+<p>Dnsmasq provides network infrastructure for small networks: DNS, DHCP, router advertisement and network boot. It is designed to be lightweight and have a small footprint, suitable for resource constrained routers and firewalls. It has also been widely used for tethering on smartphones and portable hotspots, and to support virtual networking in virtualisation frameworks. Supported platforms include Linux (with glibc and uclibc), Android, *BSD, and Mac OS X. Dnsmasq is included in most Linux distributions and the ports systems of FreeBSD, OpenBSD and NetBSD. Dnsmasq provides full IPv6 support.</p>
+</blockquote>
+
+<p>Unfortunately QNAP didn't have a package pre-existing, nor is there the ability to compile from source. This was build to rectify that. I didn't wish anyone else to have to worry about configuring from the command line, so I built a Web GUI right into QTS, it should take care of everything, I hope. Tested everything on QTS 4.2.0</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Dead-simple QNAP / QTS installation</li>
+<li>Web GUI integrated into QTS (see below)</li>
+<li>x86_64 Support</li>
+<li>IPv6 Support</li>
+<li>custom domain Support</li>
+<li>DHCP Server</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Tried to make it painless-</p>
+
+<ol>
+<li>Download .qpkg</li>
+<li>Navigate to <code>App Center</code> in QTS</li>
+<li>Click <code>Install Manually</code> in the top right.</li>
+<li>Upload the .qpkg</li>
+<li>Click Install.</li>
+</ol>
+
+<p>If you want IPv6 working; Ensure you turn on IPv6:<br>
+<code>QTS &gt; Control Panel &gt; System Settings &gt; Network &gt; IPv6 (tab) &amp; tick "Enable IPv6"</code></p>
+
+<h2>
+<a id="configuration--use" class="anchor" href="#configuration--use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration &amp; Use</h2>
+
+<p>After Installation an icon will show up on the desktop (or sometimes on the left side menu):</p>
+
+<p>By default, the installation will come up with a DHCP IP range of 192.168.10.10 -- 192.168.10.199, lease time 12h.<br>
+You can change this however you would like.</p>
+
+<h3>
+<a id="web-ui" class="anchor" href="#web-ui" aria-hidden="true"><span class="octicon octicon-link"></span></a>Web UI</h3>
+
+<ul>
+<li>DHCP Leases Assigned (Date Assigned, MAC Address, IP Address, Hostname, Client ID)</li>
+<li>Log File of Daemon &amp; Web UI</li>
+<li>Configuration of Global Server Settings</li>
+<li>Configuration of DHCP Static Leases (per-MAC config of: IP Address,Hostname,Leasetime)</li>
+<li>Configuration of static Host-map (static IP to hostname mapping)</li>
+</ul>
+
+<h2>
+<a id="details" class="anchor" href="#details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details</h2>
+
+<p>dnsmasq version 2.76test1-11-g4790115<br>
+Architecture: x86_64<br>
+<strong>Compile Options</strong><br>
+<code>IPv6 GNU-getopt no-DBus no-i18n IDN DHCP DHCPv6 no-Lua TFTP no-conntrack ipset auth no-DNSSEC loop-detect inotify</code></p>
+
+<p>Tested on:</p>
+
+<p><strong><em>QTS 4.2.0</em></strong></p>
+
+<ol>
+<li>HS-251</li>
+<li>TS-453mini</li>
+</ol>
+
+<h2>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span class="octicon octicon-link"></span></a>Author</h2>
+
+<p>Eric Hiller<br>
+<a href="http://code.hiller.pro">http://code.hiller.pro</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dnsmasq-qpkg maintained by <a href="https://github.com/variab1e">variab1e</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-40202820-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
