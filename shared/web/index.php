@@ -218,9 +218,17 @@ foreach($dhcphosts_lines as $line_num => $line){
 }
 
 ?>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				<tr>
 			</tbody>
 		</table>
+<!--
 		<button class="button addRow" id="addrow_dhcpleases">Add Lease</button>
+-->
 		<button class="button convertTable" id="send_dhcpleases">Save & Update</button>
 	</div>
 	
@@ -269,9 +277,13 @@ foreach($hostmap_lines as $line_num => $line){
 }
 
 ?>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+				<tr>
 			</tbody>
 		</table>
-		<button class="button addRow" id="addrow_hostmap">Add Lease</button>
 		<button class="button convertTable" id="send_hostmap">Save & Update</button>
 		<script>
 		</script>

@@ -1,7 +1,6 @@
 $(function() {
 	$( "#tabs" ).tabs();
 });
-
 $(function (){
 	$( ".convertTable" ).click( function() {
 		var target = this.id.substring(this.id.indexOf("_")+1);
@@ -13,18 +12,17 @@ $(function (){
 
 
 $(".ajaxForm").ajaxForm();
-
-//add row button(s)
 $(function(){
 	$( ".addRow").click( function(){
 		var target = this.id.substring(this.id.indexOf("_")+1);
 		var table = document.getElementById("table_" + target);
 		var row = table.getElementsByTagName('tbody')[0].insertRow(-1);
 		var tdCount = table.firstElementChild.firstElementChild.childElementCount;
-        for (i = 0; i < tdCount; i++) {
-          var cell = row.insertCell(i);
-        }
-        $(".editableTable td").dblclick(setTdEdit);
+		for(i = 0; i < tdCount; i++){
+			var cell = row.insertCell(i);
+			var newText = document.createTextNode("testText");
+			cell.appendChild(newText);
+		}
 	})
 })	
 
