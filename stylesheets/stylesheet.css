@@ -334,6 +334,7 @@ Full-Width Styles
   background: url(../images/sprite_download.png) no-repeat bottom left;
 }
 .generic_download_link {
+	font-size: 20px;
   display: block;
   float: right;
   width: 90px;
