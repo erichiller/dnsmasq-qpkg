@@ -20,30 +20,15 @@ output () {
 	/bin/echo $MSG
 }
 
-fix_x86_64_libs () {
-	if [ -z "`grep x86_64 /etc/ld.so.conf`" ]; then
-		output "adding x86_64 libs"
-		echo "/share/CACHEDEV1_DATA/.qpkg/HD_Station/lib/x86_64-linux-gnu/" >> /etc/ld.so.conf
-		/sbin/ldconfig
-	fi
-}
-
 output "STARTING: $@"
 
 case "$1" in
   start)
-#    ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
-#    if [ "$ENABLED" != "TRUE" ]; then
-#        output "$QPKG_NAME is disabled."
-#        exit 1
-#    fi
-    
     if [ -d "$DIR" ]; then
 	   	if [ -z "`/bin/pidof $QPKG_NAME`" ]; then
 
 	   		output "Starting $QPKG_NAME"
    			# Run executable with options
-   			fix_x86_64_libs
 			output $DIR/$QPKG_NAME $OPTIONS
 			PID=`$DIR/$QPKG_NAME $OPTIONS > /dev/null 2>&1 & /bin/echo $!`
 
