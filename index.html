@@ -56,10 +56,13 @@
 <li>Web GUI integrated into QTS (see below)</li>
 <li>x86 (i386/32-bit) Support</li>
 <li>x86_64 Support</li>
+<li>ARM Support</li>
 <li>No Dependencies on OPKG, IPKG, or otherwise</li>
-<li>IPv6 Support</li>
-<li>custom domain Support</li>
+<li>IPv6 Support (DHCP & DNS Config)</li>
 <li>DHCP Server</li>
+<li>Custom Domain Support</li>
+<li>Backup & Restore Configurations</li>
+<li>Start/Stop Server</li>
 </ul>
 
 <h2>
@@ -92,9 +95,10 @@ You can change this however you would like.</p>
 <ul>
 <li>DHCP Leases Assigned (Date Assigned, MAC Address, IP Address, Hostname, Client ID) <img src="images/leases_view.jpg" /></li>
 <li>Log File of Daemon &amp; Web UI<img src="images/log_view.jpg" /></li>
-<li>Configuration of Global Server Settings<img src="images/config_view.jpg" /></li>
+<li>Configuration of Global Server Settings (Can now Enable/Disable DHCP Server and Set Interface, as of >=0.1<img src="images/config_view.jpg" /></li>
 <li>Configuration of DHCP Static Leases (per-MAC config of: IP Address,Hostname,Leasetime)<img src="images/dhcphosts_view.jpg" /></li>
 <li>Configuration of static Host-map (static IP to hostname mapping)<img src="images/hosts_view.jpg" /></li>
+<li>Backup & Restore Configuration; Start & Stop Service<img src="images/admin_view.jpg" /></li>
 </ul>
 
 <i>Note: for changes to be saved when editing cells in the tables for dhcp leases and host mapping, double click the cell, and to save changes, press the "Enter" key on your keyboard</i>
@@ -103,7 +107,7 @@ You can change this however you would like.</p>
 <a id="details" class="anchor" href="#details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details</h2>
 
 <p>dnsmasq version 2.75<br>
-Architecture: x86, x86_64<br>
+Architecture: x86, x86_64, ARMv7<br>
 <strong>Compile Options</strong><br>
 <code>IPv6 GNU-getopt no-DBus no-i18n IDN DHCP DHCPv6 no-Lua TFTP no-conntrack ipset auth no-DNSSEC loop-detect no-inotify</code></p>
 
@@ -115,6 +119,44 @@ Architecture: x86, x86_64<br>
 <li>HS-251</li>
 <li>TS-453mini</li>
 </ol>
+
+<h2>ChangeLog</h2>
+
+<pre>
+## Release v0.1a
+
+### Addition
+[*] log rotate
+[*] update dnsmasq.sh to notify user of status; ie. statup / config settings change / fail
+[*] Add confirmation that your changes took upon clicking submit in config, leases, hosts; and server restarted
+[*] Added ARM build arm-x09 (please test for me!)
+[*] Added ARM build arm-x19 (please test for me!)
+[*] Administration Tab - View process running status / Live Refresh on tab view
+[*] Administration Tab - Start & Stop Process with result / confirmation
+[*] Administration Tab - Download ZIP backup configuration
+[*] Administration Tab - Upload ZIP backup config, Restore & Reboot dnsmasq
+[*] Removed jQuery form plugin dependency
+[*] Configurations now staged and tested before being commited and dnsmasq rebooted
+[*] Test for presence of IPV6
+[*] Can now configure what interface dnsmasq is bound to
+[*] Can Enable/Disabled DHCP server
+[*] Better process restart checking on config change & dnsmasq reboot
+[*] Added ability to configure IPv6 DHCP range
+[*] Cleaned up alerts / do not use javascript `alert()`
+
+### BugFix
+[*] reverse log listing -- newest @ Top
+[*] no <tr> for blank lines in the log file
+[*] proper parsing of IPv6 lease log entries on web interface
+[*] Current Leases should read "Expiring" not "assigned" for Time
+[*] Fix lease time // adjust for mismatched timezone in web ui
+[*] Following from timezone correction - correct lease expiration time now shown
+[*] removed confusing prepended scriptname output in message
+[*] Explain that you have to click "Enter" in the tables for leases, hosts for the changes to take
+[*] Fixed Bug in WebUI that crashed QPKG main config read in certain instances.
+[*] Fixed bug in uninstall
+[*] Fixed several bugs in installation
+</pre>
 
 <h2>
 <a id="author" class="anchor" href="#author" aria-hidden="true"><span class="octicon octicon-link"></span></a>Author</h2>
