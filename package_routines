@@ -104,7 +104,7 @@
 # the package is removed.
 ######################################################################
 PKG_PRE_REMOVE="{
-/bin/fgrep -v -f $SYS_QPKG_DIR/id_rsa.pub /etc/config/ssh/authorized_keys > /etc/config/ssh/authorized_keys;
+/bin/sed -i '/dnsmasq_webui_command_login/d' /etc/config/ssh/authorized_keys
 /bin/rm -f $SYS_WEB_PATH/dnsmasq
 }"
 #
@@ -140,20 +140,22 @@ PKG_PRE_REMOVE="{
 #
 pkg_post_install(){
 	/bin/ln -s $SYS_QPKG_DIR/web $SYS_WEB_PATH/dnsmasq
-	
-	/bin/chmod 777 $SYS_QPKG_DIR/dnsmasq
+
+	/bin/chown -R admin:administrators $SYS_QPKG_DIR
+	/bin/chmod 775 $SYS_QPKG_DIR
+	/bin/chmod 755 $SYS_QPKG_DIR/web
 	/bin/chmod 777 $SYS_QPKG_DIR/dnsmasq.sh
+	/bin/chmod 777 $SYS_QPKG_DIR/logrotate.sh
 	/bin/chmod 666 $SYS_QPKG_DIR/dnsmasq_hostmap.conf
 	/bin/chmod 666 $SYS_QPKG_DIR/dnsmasq_dhcphosts.conf
 	/bin/touch $SYS_QPKG_DIR/dnsmasq.log
 	/bin/chmod 666 $SYS_QPKG_DIR/dnsmasq.log
 	/bin/chmod 666 $SYS_QPKG_DIR/dnsmasq.conf
 	/bin/chmod 777 $SYS_QPKG_DIR/dnsmasq
+	/bin/mkdir $SYS_QPKG_DIR/log/
 	
-	/usr/bin/ssh-keygen -N dnsmasq -t rsa -C "dnsmasq webui command login" -f $SYS_QPKG_DIR/id_rsa
+	/usr/bin/ssh-keygen -N dnsmasq -t rsa -C "dnsmasq_webui_command_login" -f $SYS_QPKG_DIR/id_rsa
 	/usr/bin/openssl rsa -in $SYS_QPKG_DIR/id_rsa -out $SYS_QPKG_DIR/id_rsa_npw -passin pass:dnsmasq
-	# these lines were invalid anyways; if needed i can fix later
-	#/bin/chmod 700 $SYS_QPKG_DIR/dnsmasq/id_rsa*
-	#/bin/chown httpdusr $SYS_QPKG_DIR/dnsmasq/id_rsa*
 	/bin/cat $SYS_QPKG_DIR/id_rsa.pub >> /etc/config/ssh/authorized_keys
+	/bin/chmod 440 $SYS_QPKG_DIR/dnsmasq/id_rsa_npw
 }

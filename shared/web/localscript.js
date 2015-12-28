@@ -1,6 +1,7 @@
 $(function() {
-	$( "#tabs" ).tabs();
+	$("#tabs" ).tabs();
 });
+
 $(function (){
 	$( ".convertTable" ).click( function() {
 		var target = this.id.substring(this.id.indexOf("_")+1);
@@ -10,8 +11,6 @@ $(function (){
 	})
 })
 
-
-$(".ajaxForm").ajaxForm();
 $(function(){
 	$( ".addRow").click( function(){
 		var target = this.id.substring(this.id.indexOf("_")+1);
@@ -26,11 +25,19 @@ $(function(){
 	})
 })	
 
+function getAjax(destURL,callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", destURL, true)
+	xhr.send()
+	xhr.onloadend = function() {
+        callback(xhr.responseText);
+    }
+}
 
 function sendJSON(jsonstring, target, destURL){
 	//json should already be stringify()
 	//default destURL
-	destURL = typeof destURL !== 'undefined' ? destURL : '/dnsmasq/postdat.php';
+	destURL = typeof destURL !== 'undefined' ? destURL : '/postdat.php';
 	destURL = destURL + '?target=' + target;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", destURL , true);
@@ -40,6 +47,81 @@ function sendJSON(jsonstring, target, destURL){
 	xhr.send(jsonstring);
 	
 	xhr.onloadend = function () {
-		// done
+		if(xhr.response != null && xhr.response){
+			alert(xhr.response);
+		} else {
+			alert('Connection Failure');
+		}
+	}
+}
+
+function notify(text){
+	console.log("notify("+text+")")
+	var button = document.createElement("div");
+	button.addEventListener("click",function(event){
+		var el = event.target
+		el.parentElement.parentElement.removeChild(el.parentElement)
+	});
+	button.className='button';
+	var buttonText = document.createTextNode("Close");
+	button.appendChild(buttonText);
+	
+	var header = document.createElement("h5");
+	var headerText = document.createTextNode("Notification");
+	header.appendChild(headerText);
+	
+	var popup = document.createElement("div");
+	popup.className = 'notify';	
+	var notification = document.createTextNode(text);
+	var p = document.createElement('p');
+	p.appendChild(notification)
+	popup.appendChild(header)
+	popup.appendChild(p);
+	popup.appendChild(button)
+	document.body.appendChild(popup);
+}
+
+window.onload = function() {
+	var $enableDHCP = document.getElementById('enable-dhcp')
+	
+	/**
+	// callback for ajaxForm (jQuery) to provide result
+	$('.ajaxForm').ajaxForm(function(){
+		alert("Thank you for your comment!"); 
+	});
+	**/ 
+	
+	$('.ajaxForm').submit(function() { // catch the form's submit event
+		var formData = new FormData($(this)[0]);
+		$.ajax({ // create an AJAX call...
+			type: 'POST',
+			data: formData,
+			async: true,
+			cache: false,
+			contentType: false,
+			processData: false,
+			url: $(this).attr('action'), // the file to call
+			success: function(response) { // on success..
+				notify(response)
+			},
+			error: function(xhr, status, error) {
+				notify(xhr.responseText)
+			}
+		});
+		return false; // cancel original event to prevent form submitting
+	});
+	
+	
+	var toggleDisplayDiv = function(){
+		var el = document.getElementById("el-"+$enableDHCP.id);
+		console.log("display="+el.style.display+",checked="+$enableDHCP.checked)
+		if($enableDHCP.checked == true){
+			el.style.display = 'block';
+		} else {
+			el.style.display = 'none';
+		}
+
 	};
+	setTimeout(toggleDisplayDiv, 0)
+	$enableDHCP.addEventListener('click',toggleDisplayDiv)
 }
